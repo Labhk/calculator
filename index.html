@@ -3,9 +3,9 @@
 <head>
     <title>Calculator</title>
     <link rel="icon" href="Images/pm.png"/>
-    <link rel="stylesheet"  href="calci.css">
+    <link rel="stylesheet" href="calci.css">
     <style>
-        body{
+        body {
             background-image: url("Images/n5.avif");
             background-size: 100% 700px;
         }
@@ -13,30 +13,73 @@
 </head>
 <body>
     <div class="container">
-            <div class="calculator">
-                <input type="text" placeholder="0" id="output-screen">
-                <button onclick="Clear()">C</button>
-                <button onclick="del()">&lArr;</button>
-                <button onclick="display('%')">%</button>
-                <button onclick="display('/')">/</button>
-                <button onclick="display('7')">7</button>
-                <button onclick="display('8')">8</button>
-                <button onclick="display('9')">9</button>
-                <button onclick="display('*')">*</button>
-                <button onclick="display('4')">4</button>
-                <button onclick="display('5')">5</button>
-                <button onclick="display('6')">6</button>
-                <button onclick="display('-')">-</button>
-                <button onclick="display('1')">1</button>
-                <button onclick="display('2')">2</button>
-                <button onclick="display('3')">3</button>
-                <button onclick="display('+')">+</button>
-                <button onclick="display('.')">.</button>
-                <button onclick="display('0')">0</button>
-                <button onclick="Calculate()" class="equalto">=</button>                
-            </div>
+        <div class="calculator">
+            <input type="text" placeholder="0" id="output-screen">
+            <button onclick="Clear()">C</button>
+            <button onclick="del()">&lArr;</button>
+            <button onclick="display('%')">%</button>
+            <button onclick="display('/')">/</button>
+            <button onclick="display('7')">7</button>
+            <button onclick="display('8')">8</button>
+            <button onclick="display('9')">9</button>
+            <button onclick="display('*')">*</button>
+            <button onclick="display('4')">4</button>
+            <button onclick="display('5')">5</button>
+            <button onclick="display('6')">6</button>
+            <button onclick="display('-')">-</button>
+            <button onclick="display('1')">1</button>
+            <button onclick="display('2')">2</button>
+            <button onclick="display('3')">3</button>
+            <button onclick="display('+')">+</button>
+            <button onclick="display('.')">.</button>
+            <button onclick="display('0')">0</button>
+            <button onclick="Calculate()" class="equalto">=</button>
+        </div>
     </div>
 </body>
 <script src="calci.js"> </script>
+<script>
+    let outputScreen = document.getElementById("output-screen");
 
+    // Event listener for keyboard input
+    document.addEventListener("keydown", function (event) {
+        const key = event.key;
+
+        // Check if the key is a number, operator, or Enter (=)
+        if (/[\d+\-*/%.=]/.test(key)) {
+            event.preventDefault(); // Prevent default behavior (e.g., scrolling)
+            display(key);
+        } else if (key === "Escape") {
+            Clear();
+        } else if (key === "Backspace") {
+            del();
+        }
+    });
+
+    function display(num) {
+        outputScreen.value += num;
+        // Adjust font size dynamically based on content
+        const contentLength = outputScreen.value.length;
+        if (contentLength < 10) {
+            outputScreen.style.fontSize = "42px";
+        } else if (contentLength < 15) {
+            outputScreen.style.fontSize = "32px";
+        } else {
+            outputScreen.style.fontSize = "22px";
+        }
+    }
+
+    function Calculate() {
+        outputScreen.value = eval(outputScreen.value);
+    }
+
+    function Clear() {
+        outputScreen.value = "";
+        outputScreen.style.fontSize = "42px"; // Reset font size
+    }
+
+    function del() {
+        outputScreen.value = outputScreen.value.slice(0, -1);
+    }
+</script>
 </html>
